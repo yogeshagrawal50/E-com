@@ -3,6 +3,7 @@ const crypto = require("crypto")
 const uuidv1 = require('uuid/v1')
 
 var userSchema  =  new mongoose.Schema({
+
   name:{
     type: String,
     required: true,
@@ -37,8 +38,11 @@ var userSchema  =  new mongoose.Schema({
     type: Array,
     default:[]
   }
-});
+},
+{timestamps:true}
+);
 
+//encrpution password before saving into the db
 userSchema.virtual("password")
     .set(function(password){
       this._password = password
@@ -49,14 +53,16 @@ userSchema.virtual("password")
       return  this._password
     })
 
-userSchema.method={
+userSchema.methods = {
 
-  authenticate : function(plainpassword){
+  //checking user inpput password == encrypt password
+  autheticate : function(plainpassword){
     return this.securePassword(plainpassword) === this.encry_password
   },
 
+  //encrypting password method
   securePassword: function(plainpassword){
-    if (!password) return "";
+    if (!plainpassword) return "";
     try{
       return crypto.createHmac('sha256', this.salt)
       .update(plainpassword)
