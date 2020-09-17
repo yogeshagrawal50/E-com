@@ -11,9 +11,9 @@ const {
   getAllProducts,
   getAllUniqueCatgories
 } = require("../controllers/product")
+
 const  { isSignedIn, isAuthenticated, isAdmin} = require ("../controllers/auth")
-const  { getUserByID}  = require ("../controllers/user");
-const { create } = require('../models/user');
+const  { getUserByID, pushOrderInPurchaseList}  = require ("../controllers/user");
 
 //params
 router.param('userId', getUserByID)
