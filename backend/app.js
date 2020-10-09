@@ -1,17 +1,35 @@
 const express = require('express');
 const app = express()
+var morgan = require('morgan')
 require("dotenv").config()
 const mongoose = require('mongoose');
 
 //importing middelware libraries
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const cors = require('cookie-parser')
+const cors = require('cors');
 
+// const corsOpts = {
+//   origin: '*',
+
+//   methods: [
+//     'GET',
+//     'POST',
+//     'PUT',
+//     'DELETE'
+//   ],
+
+//   allowedHeaders: [
+//     'Content-Type',
+//   ],
+// };
+
+// app.use(cors(corsOpts));
 //using midlleware
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors())
+app.use(morgan('dev'))
 
 const authRoutes =  require("./routes/auth")
 const userRoutes = require("./routes/user")
